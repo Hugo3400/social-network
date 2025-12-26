@@ -9,15 +9,27 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  CircularProgress
+  CircularProgress,
+  InputAdornment,
+  Chip
 } from '@mui/material';
+import StorageIcon from '@mui/icons-material/Storage';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import axios from 'axios';
 
 export default function DatabaseConfig({ config, updateConfig, onNext, setError }) {
   const [testing, setTesting] = useState(false);
 
   const handleChange = (field) => (event) => {
-    updateConfig({ [field]: event.target.value });
+    const value = event.target.value;
+    
+    // Auto-adjust port when database type changes
+    if (field === 'type') {
+      const defaultPort = value === 'mysql' ? 3306 : 5432;
+      updateConfig({ [field]: value, port: defaultPort });
+    } else {
+      updateConfig({ [field]: value });
+    }
   };
 
   const testConnection = async () => {
@@ -40,11 +52,14 @@ export default function DatabaseConfig({ config, updateConfig, onNext, setError 
 
   return (
     <Box>
-      <Typography variant="h6" gutterBottom>
-        Database Configuration
-      </Typography>
-      <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-        Configure your PostgreSQL database connection. Make sure the database exists.
+      <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+        <StorageIcon sx={{ mr: 1, color: '#667eea', fontSize: 28 }} />
+        <Typography variant="h5" sx={{ fontWeight: 700 }}>
+          Database Configuration
+        </Typography>
+      </Box>
+      <Typography variant="body1" color="text.secondary" sx={{ mb: 4, lineHeight: 1.8 }}>
+        Configure your database connection. Make sure the database exists. Choose PostgreSQL or MySQL/MariaDB.
       </Typography>
 
       <Grid container spacing={3}>
@@ -55,8 +70,33 @@ export default function DatabaseConfig({ config, updateConfig, onNext, setError 
               value={config.type}
               label="Database Type"
               onChange={handleChange('type')}
+              sx={{
+                '& .MuiOutlinedInput-notchedOutline': {
+                  borderWidth: 2,
+                  borderColor: 'rgba(102, 126, 234, 0.2)'
+                },
+                '&:hover .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'rgba(102, 126, 234, 0.4)'
+                },
+                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: '#667eea'
+                }
+              }}
             >
-              <MenuItem value="postgresql">PostgreSQL</MenuItem>
+              <MenuItem value="postgresql">
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <StorageIcon sx={{ mr: 1, fontSize: 20 }} />
+                  PostgreSQL
+                  <Chip label="Recommended" size="small" color="primary" sx={{ ml: 1 }} />
+                </Box>
+              </MenuItem>
+              <MenuItem value="mysql">
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <StorageIcon sx={{ mr: 1, fontSize: 20 }} />
+                  MySQL / MariaDB
+                  <Chip label="phpMyAdmin Compatible" size="small" color="success" sx={{ ml: 1 }} />
+                </Box>
+              </MenuItem>
             </Select>
           </FormControl>
         </Grid>
@@ -68,6 +108,13 @@ export default function DatabaseConfig({ config, updateConfig, onNext, setError 
             value={config.host}
             onChange={handleChange('host')}
             placeholder="localhost"
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': { borderWidth: 2, borderColor: 'rgba(102, 126, 234, 0.2)' },
+                '&:hover fieldset': { borderColor: 'rgba(102, 126, 234, 0.4)' },
+                '&.Mui-focused fieldset': { borderColor: '#667eea' }
+              }
+            }}
           />
         </Grid>
 
@@ -78,7 +125,15 @@ export default function DatabaseConfig({ config, updateConfig, onNext, setError 
             type="number"
             value={config.port}
             onChange={handleChange('port')}
-            placeholder="5432"
+            placeholder={config.type === 'mysql' ? '3306' : '5432'}
+            helperText={config.type === 'mysql' ? 'Default MySQL/MariaDB port' : 'Default PostgreSQL port'}
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': { borderWidth: 2, borderColor: 'rgba(102, 126, 234, 0.2)' },
+                '&:hover fieldset': { borderColor: 'rgba(102, 126, 234, 0.4)' },
+                '&.Mui-focused fieldset': { borderColor: '#667eea' }
+              }
+            }}
           />
         </Grid>
 
@@ -89,6 +144,13 @@ export default function DatabaseConfig({ config, updateConfig, onNext, setError 
             value={config.name}
             onChange={handleChange('name')}
             placeholder="social_hybrid"
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': { borderWidth: 2, borderColor: 'rgba(102, 126, 234, 0.2)' },
+                '&:hover fieldset': { borderColor: 'rgba(102, 126, 234, 0.4)' },
+                '&.Mui-focused fieldset': { borderColor: '#667eea' }
+              }
+            }}
           />
         </Grid>
 
@@ -99,6 +161,13 @@ export default function DatabaseConfig({ config, updateConfig, onNext, setError 
             value={config.user}
             onChange={handleChange('user')}
             placeholder="postgres"
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': { borderWidth: 2, borderColor: 'rgba(102, 126, 234, 0.2)' },
+                '&:hover fieldset': { borderColor: 'rgba(102, 126, 234, 0.4)' },
+                '&.Mui-focused fieldset': { borderColor: '#667eea' }
+              }
+            }}
           />
         </Grid>
 
@@ -110,6 +179,13 @@ export default function DatabaseConfig({ config, updateConfig, onNext, setError 
             value={config.password}
             onChange={handleChange('password')}
             placeholder="Enter database password"
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': { borderWidth: 2, borderColor: 'rgba(102, 126, 234, 0.2)' },
+                '&:hover fieldset': { borderColor: 'rgba(102, 126, 234, 0.4)' },
+                '&.Mui-focused fieldset': { borderColor: '#667eea' }
+              }
+            }}
           />
         </Grid>
 
@@ -120,8 +196,27 @@ export default function DatabaseConfig({ config, updateConfig, onNext, setError 
             size="large"
             onClick={testConnection}
             disabled={testing || !config.password}
+            startIcon={testing ? <CircularProgress size={20} color="inherit" /> : <CheckCircleIcon />}
+            sx={{
+              py: 1.5,
+              fontSize: '1.1rem',
+              fontWeight: 600,
+              borderRadius: 2,
+              textTransform: 'none',
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              boxShadow: '0 4px 15px rgba(102, 126, 234, 0.4)',
+              transition: 'all 0.3s ease',
+              '&:hover': {
+                transform: 'translateY(-2px)',
+                boxShadow: '0 6px 20px rgba(102, 126, 234, 0.5)',
+                background: 'linear-gradient(135deg, #764ba2 0%, #667eea 100%)'
+              },
+              '&:disabled': {
+                background: 'rgba(0, 0, 0, 0.12)'
+              }
+            }}
           >
-            {testing ? <CircularProgress size={24} /> : 'Test Connection & Continue'}
+            {testing ? 'Testing Connection...' : 'Test Connection & Continue'}
           </Button>
         </Grid>
       </Grid>

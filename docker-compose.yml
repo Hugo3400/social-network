@@ -14,7 +14,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./backend/app/db/schema.sql:/docker-entrypoint-initdb.d/schema.sql
     ports:
-      - "5432:5432"
+      - "5433:5432"  # Using 5433 to avoid conflict with existing PostgreSQL
     networks:
       - social-network
     healthcheck:
@@ -31,7 +31,7 @@ services:
     container_name: social-hybrid-backend
     restart: always
     ports:
-      - "3001:3001"
+      - "8091:3001"
     environment:
       NODE_ENV: production
       DB_TYPE: postgresql
@@ -58,7 +58,7 @@ services:
     container_name: social-hybrid-frontend
     restart: always
     ports:
-      - "80:80"
+      - "8092:80"
     depends_on:
       - backend
     networks:

@@ -5,23 +5,40 @@ const path = require('path');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 const { Pool } = require('pg');
+const mysql = require('mysql2/promise');
 
-// Test database connection
+// Test database connection (supports PostgreSQL and MySQL)
 router.post('/test-db', async (req, res) => {
-  const { host, port, database, user, password } = req.body;
+  const { type, host, port, name, user, password } = req.body;
+  const dbType = type || 'postgresql';
 
   try {
-    const pool = new Pool({
-      host,
-      port: parseInt(port),
-      database,
-      user,
-      password,
-      connectionTimeoutMillis: 5000,
-    });
+    if (dbType === 'mysql') {
+      const pool = mysql.createPool({
+        host,
+        port: parseInt(port),
+        database: name,
+        user,
+        password,
+        connectionLimit: 1,
+        connectTimeout: 5000
+      });
 
-    await pool.query('SELECT NOW()');
-    await pool.end();
+      await pool.query('SELECT 1');
+      await pool.end();
+    } else {
+      const pool = new Pool({
+        host,
+        port: parseInt(port),
+        database: name,
+        user,
+        password,
+        connectionTimeoutMillis: 5000,
+      });
+
+      await pool.query('SELECT NOW()');
+      await pool.end();
+    }
 
     res.json({ success: true, message: 'Database connection successful' });
   } catch (error) {
@@ -33,26 +50,47 @@ router.post('/test-db', async (req, res) => {
   }
 });
 
-// Initialize database schema
+// Initialize database schema (supports PostgreSQL and MySQL)
 router.post('/init-db', async (req, res) => {
-  const { host, port, database, user, password } = req.body;
+  const { type, host, port, name, user, password } = req.body;
+  const dbType = type || 'postgresql';
 
   try {
-    const pool = new Pool({
-      host,
-      port: parseInt(port),
-      database,
-      user,
-      password,
-    });
+    let pool;
+    let schemaPath;
+
+    if (dbType === 'mysql') {
+      pool = mysql.createPool({
+        host,
+        port: parseInt(port),
+        database: name,
+        user,
+        password,
+        multipleStatements: true
+      });
+      schemaPath = path.join(__dirname, '..', 'db', 'schema-mysql.sql');
+    } else {
+      pool = new Pool({
+        host,
+        port: parseInt(port),
+        database: name,
+        user,
+        password,
+      });
+      schemaPath = path.join(__dirname, '..', 'db', 'schema.sql');
+    }
 
     // Read schema file
-    const schemaPath = path.join(__dirname, '..', 'db', 'schema.sql');
     const schema = fs.readFileSync(schemaPath, 'utf8');
 
     // Execute schema
-    await pool.query(schema);
-    await pool.end();
+    if (dbType === 'mysql') {
+      await pool.query(schema);
+      await pool.end();
+    } else {
+      await pool.query(schema);
+      await pool.end();
+    }
 
     res.json({ success: true, message: 'Database initialized successfully' });
   } catch (error) {

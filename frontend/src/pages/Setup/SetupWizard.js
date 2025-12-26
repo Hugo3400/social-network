@@ -248,6 +248,5 @@ export default function SetupWizard({ onComplete }) {
         </Fade>
       </Container>
     </Box>
-    </Container>
   );
 }
