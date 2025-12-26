@@ -1,0 +1,35 @@
+{
+  "name": "social-hybrid-network",
+  "version": "1.0.0",
+  "description": "A modern hybrid social network platform combining HumHub, Twitter/X, and Facebook features",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Hugo3400/social-network.git"
+  },
+  "keywords": [
+    "social-network",
+    "social-media",
+    "community",
+    "groups",
+    "messaging",
+    "feed",
+    "profiles",
+    "open-source"
+  ],
+  "author": "",
+  "license": "MIT",
+  "scripts": {
+    "install-all": "cd backend && npm install && cd ../frontend && npm install",
+    "dev": "docker-compose -f docker-compose.dev.yml up",
+    "prod": "docker-compose up -d",
+    "stop": "docker-compose down",
+    "logs": "docker-compose logs -f",
+    "backup": "./scripts/backup.sh",
+    "update": "./scripts/update.sh",
+    "setup": "./install.sh"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site Web Créé avec Succès | social-network</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 50px 40px;
+            border-radius: 16px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+            text-align: center;
+            max-width: 700px;
+            width: 100%;
+            animation: fadeInUp 0.6s ease-out;
+            border-top: 4px solid #00d4ff;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+        .logo svg {
+            width: 40px;
+            height: 40px;
+            fill: white;
+        }
+        .status-badge {
+            display: inline-block;
+            background: #00d084;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        h1 {
+            color: #1a1a1a;
+            font-size: 2.2em;
+            margin-bottom: 15px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .subtitle {
+            color: #666;
+            font-size: 1.15em;
+            margin-bottom: 35px;
+            line-height: 1.6;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+        .info-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #00d4ff;
+        }
+        .info-card-label {
+            font-size: 0.8em;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .info-card-value {
+            font-size: 1.1em;
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, #ddd, transparent);
+            margin: 30px 0;
+        }
+        .next-steps {
+            background: #f0f8ff;
+            padding: 25px;
+            border-radius: 12px;
+            border: 2px dashed #00d4ff;
+            margin-top: 30px;
+        }
+        .next-steps h3 {
+            color: #1a1a1a;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+        }
+        .next-steps ul {
+            text-align: left;
+            color: #555;
+            line-height: 2;
+        }
+        .next-steps li {
+            margin-left: 20px;
+        }
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #888;
+            font-size: 0.9em;
+        }
+        .footer a {
+            color: #00d4ff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        .icon-check {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background: #00d084;
+            border-radius: 50%;
+            margin-right: 8px;
+            position: relative;
+        }
+        .icon-check:after {
+            content: '✓';
+            color: white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5zm0 18c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6zm-1-10h2v6h-2zm0-4h2v2h-2z"/>
+            </svg>
+        </div>
+        
+        <div class="status-badge">
+            <span class="icon-check"></span>
+            Site Actif et Fonctionnel
+        </div>
+        
+        <h1>Félicitations ! 🎉</h1>
+        <p class="subtitle">Votre site web <strong>social-network</strong> a été créé avec succès et est maintenant en ligne.</p>
+        
+        <div class="info-grid">
+            <div class="info-card">
+                <div class="info-card-label">Nom du Site</div>
+                <div class="info-card-value">social-network</div>
+            </div>
+            <div class="info-card">
+                <div class="info-card-label">Domaine</div>
+                <div class="info-card-value">social-network.local</div>
+            </div>
+            <div class="info-card">
+                <div class="info-card-label">Type</div>
+                <div class="info-card-value">HTML/CSS</div>
+            </div>
+            <div class="info-card">
+                <div class="info-card-label">Serveur Web</div>
+                <div class="info-card-value">Nginx</div>
+            </div>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <div class="next-steps">
+            <h3>📋 Prochaines Étapes</h3>
+            <ul>
+                <li>Remplacez ce fichier par vos propres pages HTML</li>
+                <li>Ajoutez vos fichiers CSS, JavaScript et images</li>
+                <li>Configurez votre base de données si nécessaire</li>
+                <li>Consultez les logs via le panel d'administration</li>
+            </ul>
+        </div>
+        
+        <div class="footer">
+            <p>Géré par votre <a href="/admin/">Panel d'Administration</a></p>
+            <p style="margin-top: 10px; font-size: 0.85em;">Emplacement: /var/www/sites/social-network/</p>
+        </div>
+    </div>
+</body>
+</html>

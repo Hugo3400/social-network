@@ -1,0 +1,39 @@
+{
+  "project": {
+    "name": "Social Hybrid Network",
+    "description": "A modern hybrid social network platform"
+  },
+  "server": {
+    "port": 3001,
+    "host": "localhost"
+  },
+  "database": {
+    "type": "postgresql",
+    "host": "localhost",
+    "port": 5432,
+    "name": "social_hybrid",
+    "user": "postgres",
+    "password": "your_password_here"
+  },
+  "admin": {
+    "username": "admin",
+    "email": "admin@example.com",
+    "password": "changeme"
+  },
+  "modules": {
+    "feed": true,
+    "groups": true,
+    "profiles": true,
+    "messaging": true,
+    "notifications": true
+  },
+  "security": {
+    "jwtSecret": "REPLACE_WITH_RANDOM_SECRET",
+    "jwtExpiration": "24h",
+    "bcryptRounds": 10
+  },
+  "uploads": {
+    "maxFileSize": 5242880,
+    "allowedTypes": ["image/jpeg", "image/png", "image/gif", "image/webp"]
+  }
+}
