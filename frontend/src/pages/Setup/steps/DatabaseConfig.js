@@ -23,10 +23,11 @@ export default function DatabaseConfig({ config, updateConfig, onNext, setError 
   const handleChange = (field) => (event) => {
     const value = event.target.value;
     
-    // Auto-adjust port when database type changes
+    // Auto-adjust port and host when database type changes
     if (field === 'type') {
       const defaultPort = value === 'mysql' ? 3306 : 5432;
-      updateConfig({ [field]: value, port: defaultPort });
+      const defaultHost = value === 'mysql' ? 'host.docker.internal' : 'postgres';
+      updateConfig({ [field]: value, port: defaultPort, host: defaultHost });
     } else {
       updateConfig({ [field]: value });
     }
@@ -107,7 +108,12 @@ export default function DatabaseConfig({ config, updateConfig, onNext, setError 
             label="Host"
             value={config.host}
             onChange={handleChange('host')}
-            placeholder="localhost"
+            placeholder={config.type === 'mysql' ? 'host.docker.internal ou IP' : 'postgres'}
+            helperText={
+              config.type === 'mysql' 
+                ? 'Docker: host.docker.internal | Serveur: adresse IP ou nom d’hôte'
+                : 'Docker: postgres (nom du service) | Serveur: localhost ou IP'
+            }
             sx={{
               '& .MuiOutlinedInput-root': {
                 '& fieldset': { borderWidth: 2, borderColor: 'rgba(102, 126, 234, 0.2)' },

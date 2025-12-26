@@ -26,7 +26,7 @@ export default function SetupWizard({ onComplete }) {
   const [config, setConfig] = useState({
     database: {
       type: 'postgresql',
-      host: 'localhost',
+      host: 'postgres',
       port: 5432,
       name: 'social_hybrid',
       user: 'postgres',
